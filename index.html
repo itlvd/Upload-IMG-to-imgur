@@ -4,7 +4,53 @@
 <head>
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160701161-1"></script>
-<script>
+<script type="text/javascript">
+    ======================================================
+    <script>
+document.onpaste = function (e) {
+    var items = e.clipboardData.items;
+    var files = [];
+    for( var i = 0, len = items.length; i < len; ++i ) {
+        var item = items[i];
+        if( item.kind === "file" ) {
+            submitFileForm(item.getAsFile(), "paste");
+        }
+    }
+
+};
+
+function submitFileForm(file, type) {
+    var extension = file.type.match(/\/([a-z0-9]+)/i)[1].toLowerCase();
+    var formData = new FormData();
+    formData.append('file', file, "image_file");
+    formData.append('extension', extension );
+    formData.append("mimetype", file.type );
+    formData.append('submission-type', type);
+
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = "text";
+    xhr.open('POST', '<?php echo basename(__FILE__); ?>');
+    xhr.onload = function () {
+        if (xhr.status == 200) {
+            var a = document.createElement("a")
+            a.href = xhr.response;
+            a.text = "Link tai";
+            a.target = '_blank';
+
+            var img = new Image();
+            img.src = xhr.response;
+
+            var div = document.createElement("DIV");
+            div.appendChild(a);
+            div.appendChild(img);
+
+            document.body.appendChild(div);
+        }
+    };
+
+    xhr.send(formData);
+}
+    //======================================================================
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
