@@ -3,9 +3,9 @@
 
 <head>
 
+
 <script type="text/javascript">
    // ======================================================
-
 document.onpaste = function (e) {
     var items = e.clipboardData.items;
     var files = [];
@@ -19,40 +19,15 @@ document.onpaste = function (e) {
 };
 
 function submitFileForm(file, type) {
-    var extension = file.type.match(/\/([a-z0-9]+)/i)[1].toLowerCase();
-    var formData = new FormData();
-    formData.append('file', file, "image_file");
-    formData.append('extension', extension );
-    formData.append("mimetype", file.type );
-    formData.append('submission-type', type);
-
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = "text";
-    xhr.open('POST', '<?php echo basename(__FILE__); ?>');
-    xhr.onload = function () {
-        if (xhr.status == 200) {
-            var a = document.createElement("a")
-            a.href = xhr.response;
-            a.text = "Link tai";
-            a.target = '_blank';
-
-            var img = new Image();
-            img.src = xhr.response;
-
-            var div = document.createElement("DIV");
-            div.appendChild(a);
-            div.appendChild(img);
-
-            document.body.appendChild(div);
-        }
-    };
-
-    xhr.send(formData);
+  var elem = document.getElementsByTagName("input")[0];
+  var temp = new DataTransfer();
+  temp.items.add(file);
+  elem.files= temp.files;
+  document.getElementsByClassName('dropzone')[0].dispatchEvent(new Event("change"));
 }
     </script>
     //======================================================================
-
-
+    
     <meta charset="UTF-8">
     <title>Up ảnh nhanh</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
