@@ -1,7 +1,6 @@
 /* Imgur Upload Script */
 (function (root, factory) {
     sessionStorage.add = 0;
-    "use strict";
     if (typeof define === 'function' && define.amd) {
         define([], factory);
     } else if (typeof exports === 'object') {
@@ -75,8 +74,8 @@
         createDragZone: function () {
             var p1, p2, input;
 
-                p1 = this.createEls('p', {}, 'Kéo thẻ hình ảnh vào đây');
-                p2 = this.createEls('p', {}, 'Hoặc click để chọn hình ảnh');
+                p1 = this.createEls('p', {}, 'Kéo thả hình ảnh hoặc nhấp vào đây');
+                p2 = this.createEls('p', {}, 'Hoặc Bấm Ctrl + V để post ảnh');
             input = this.createEls('input', {type: 'file', className: 'input', accept: 'image/*',multiple:'multiple'});
 
             Array.prototype.forEach.call(this.info, function (zone) {
@@ -131,9 +130,9 @@
                 file, target, i, len;
 
             zone.addEventListener('change', function (e) {
-                
-                if (e.target && e.target.nodeName === 'INPUT' && e.target.type === 'file') {
-                    target = e.target.files;
+
+                if (1 || ( e.target && e.target.nodeName === 'INPUT' && e.target.type === 'file')) {
+                    target = document.getElementsByTagName("input")[0].files;
 					console.log(target);
                     for (i = 0, len = target.length; i < len; i += 1) {
                         var dem = sessionStorage.getItem("add");
@@ -144,7 +143,7 @@
                         document.getElementById("list").insertAdjacentHTML("beforebegin", name);
                         sessionStorage.add = Number(sessionStorage.add)+1;
                     } else {
-                        name = '<div class="upload-process"><div class="item uploaded" style="display: block;"> <span class="check"><i class="icon icon-times" style="color: #b33232; display: block;"></i></span> <span class="name"><input class="transparent" value="'+file.name+'"></span>  <span class="result"><i class="icon icon-arrow-right" style="color: #bbdb08;float:left;"></i><input class="transparent" id="link-error" value="File không đúng định dạng" style="display: block;"></span> </div></div>';
+                        name = '<div class="upload-process"><div class="item uploaded" style="display: block;"> <span class="check"><i class="icon icon-times" style="color: #b33232; display: block;"></i></span> <span class="name"><input class="transparent" value="'+file.name+'"></span>  <span class="result"><i class="icon icon-arrow-right" style="color: #bbdb08;float:left;"></i><input class="transparent" id="link-error" value="File khÃ´ng Ä‘Ãºng Ä‘á»‹nh dáº¡ng" style="display: block;"></span> </div></div>';
                         document.getElementById("list").insertAdjacentHTML("beforebegin", name);
                     }
                 }
